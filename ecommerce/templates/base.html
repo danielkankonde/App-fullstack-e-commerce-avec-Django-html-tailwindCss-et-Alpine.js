@@ -10,9 +10,9 @@
 <body class="bg-white text-black overflow-x-hidden">
 
 <!-- Navbar -->
-<nav class="bg-green-500 p-4 flex justify-between items-center">
+<nav class="bg-green-400 p-6 flex justify-between items-center">
     <div>
-        <a href="{% url 'home' %}" class="font-bold text-white text-xl">MaBoutique</a>
+        <a href="{% url 'home' %}" class="font-bold text-white text-2xl"><strong class="text-2xl color-green font-bold">G</strong>style</a>
     </div>
 
     <div class="flex items-center space-x-4">
@@ -58,13 +58,13 @@
     <!-- Boutons précédent / suivant -->
     <button
         @click="current = current === 0 ? images.length - 1 : current - 1"
-        class="absolute left-4 top-1/2 -translate-y-1/2 bg-green-500 text-white px-3 py-1 rounded shadow">
+        class="absolute left-4 top-1/2 -translate-y-1/2 bg-green-400 text-white px-3 py-1 rounded shadow">
         ‹
     </button>
 
     <button
         @click="current = current === images.length - 1 ? 0 : current + 1"
-        class="absolute right-4 top-1/2 -translate-y-1/2 bg-green-500 text-white px-3 py-1 rounded shadow">
+        class="absolute right-4 top-1/2 -translate-y-1/2 bg-green-400 text-white px-3 py-1 rounded shadow">
         ›
     </button>
 </div>
@@ -74,6 +74,52 @@
 <div class="p-6">
     {% block content %}{% endblock %}
 </div>
+
+<!-- FOOTER -->
+<footer class="bg-gray-900 text-gray-200 mt-10">
+    <div class="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <!-- À propos -->
+        <div>
+            <h3 class="text-lg font-semibold mb-4">MaBoutique</h3>
+            <p class="text-sm text-gray-400">
+                Votre boutique e-commerce de confiance pour des vêtements modernes
+                et de qualité.
+            </p>
+        </div>
+
+        <!-- Adresse & horaires -->
+        <div>
+            <h3 class="text-lg font-semibold mb-4">Adresse & Horaires</h3>
+            <p class="text-sm text-gray-400">
+                📍 Avenue du Commerce, Kinshasa<br>
+                🕘 Lundi : 08h00 – 18h00<br>
+                🕘 Mardi : 08h00 – 18h00<br>
+                🕘 Mercredi : 08h00 – 18h00<br>
+                🕘 Jeudi : 08h00 – 18h00<br>
+                🕘 Vendredi : 08h00 – 18h00<br>
+                🕘 Samedi : 08h00 – 15h00<br>
+                ❌ Dimanche : Fermé
+            </p>
+        </div>
+
+        <!-- Réseaux sociaux -->
+        <div>
+            <h3 class="text-lg font-semibold mb-4">Suivez-nous</h3>
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-green-400 transition">Facebook</a>
+                <a href="#" class="hover:text-green-400 transition">Instagram</a>
+                <a href="#" class="hover:text-green-400 transition">WhatsApp</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Copyright -->
+    <div class="border-t border-gray-700 text-center py-4 text-sm text-gray-400">
+        © {{ now|date:"Y" }} MaBoutique — Tous droits réservés
+    </div>
+</footer>
 
 </body>
 </html>
