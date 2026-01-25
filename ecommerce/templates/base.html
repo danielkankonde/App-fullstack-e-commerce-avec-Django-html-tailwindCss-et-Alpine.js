@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}E-Commerce{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+</head>
+<body class="bg-white text-black overflow-x-hidden">
+
+<!-- Navbar -->
+<nav class="bg-green-500 p-4 flex justify-between items-center">
+    <div>
+        <a href="{% url 'home' %}" class="font-bold text-white text-xl">MaBoutique</a>
+    </div>
+
+    <div class="flex items-center space-x-4">
+        <a href="{% url 'cart' %}" class="relative text-white">
+            Panier
+            {% if request.user.is_authenticated %}
+            <span class="absolute -top-2 -right-2 bg-white text-green-500 rounded-full px-2 text-xs">
+                {{ request.user.panier.lignepanier_set.count }}
+            </span>
+            {% endif %}
+        </a>
+
+        {% if request.user.is_authenticated %}
+            <span class="text-white">{{ request.user.username }}</span>
+            <a href="{% url 'logout' %}" class="text-white">Déconnexion</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="text-white">Connexion</a>
+            <a href="{% url 'register' %}" class="text-white">Inscription</a>
+        {% endif %}
+    </div>
+</nav>
+
+<!-- SLIDER PRO E-COMMERCE - LARGEUR AUGMENTÉE -->
+<div
+    x-data="{
+        current: 0,
+        images: [
+            '{% static "images/prod1.jpg" %}',
+            '{% static "images/prod2.jpg" %}',
+            '{% static "images/prod3.jpg" %}'
+        ]
+    }"
+    x-init="setInterval(() => current = (current + 1) % images.length, 4000)"
+    class="relative w-full bg-white flex items-center justify-center py-6"
+>
+
+    <img
+        :src="images[current]"
+        class="w-full max-w-4xl h-80 object-contain mx-auto rounded shadow-lg"
+        alt="Produit"
+    >
+
+    <!-- Boutons précédent / suivant -->
+    <button
+        @click="current = current === 0 ? images.length - 1 : current - 1"
+        class="absolute left-4 top-1/2 -translate-y-1/2 bg-green-500 text-white px-3 py-1 rounded shadow">
+        ‹
+    </button>
+
+    <button
+        @click="current = current === images.length - 1 ? 0 : current + 1"
+        class="absolute right-4 top-1/2 -translate-y-1/2 bg-green-500 text-white px-3 py-1 rounded shadow">
+        ›
+    </button>
+</div>
+
+
+<!-- Contenu principal -->
+<div class="p-6">
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>
