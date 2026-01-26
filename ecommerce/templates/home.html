@@ -26,14 +26,17 @@
     </h2>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-        {% for cat in "1234" %}
+        {% for cat in categories %}
         <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-4 text-center">
-            <img src="{% static 'images/prod1.jpg' %}" class="h-32 mx-auto object-contain" alt="">
-            <h3 class="mt-4 font-semibold text-gray-700">Catégorie {{ cat }}</h3>
+            <img src="{{ cat.image.url }}" class="h-32 mx-auto object-contain" alt="{{ cat.nom }}">
+            <h3 class="mt-4 font-semibold text-gray-700">{{ cat.nom }}</h3>
         </div>
+        {% empty %}
+        <p>Aucune catégorie populaire</p>
         {% endfor %}
     </div>
 </section>
+
 
 <!-- PRODUITS POPULAIRES -->
 <section class="mb-16">
@@ -42,19 +45,26 @@
     </h2>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-        {% for prod in "1234" %}
+        {% for prod in produits %}
         <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-4">
-            <img src="{% static 'images/prod2.jpg' %}" class="h-40 w-full object-contain" alt="">
-            <h3 class="mt-4 font-semibold text-gray-800">Produit {{ prod }}</h3>
-            <p class="text-green-500 font-bold mt-2">25 $</p>
-            <a href="#"
-               class="block mt-3 bg-green-500 text-white text-center py-2 rounded hover:bg-green-600 transition">
+            <img src="{{ prod.image.url }}" class="h-40 w-full object-contain" alt="{{ prod.nom }}">
+            <h3 class="mt-4 font-semibold text-gray-800">{{ prod.nom }}</h3>
+            <p class="text-green-500 font-bold mt-2">{{ prod.prix }} $</p>
+
+            <div class="flex gap-2">
+                <a href="" class="w-60 mt-3 bg-green-500 text-white text-center py-2 rounded hover:bg-green-600 transition">
                 Ajouter au panier
             </a>
+            <a href="{% url 'products:detail' prod.id %}" class="w-36 mt-3 bg-yellow-500 text-white text-center py-2 rounded hover:bg-yellow-600 transition">Voir</a>
+            </div>
         </div>
+        {% empty %}
+        <p>Aucun produit populaire</p>
         {% endfor %}
     </div>
 </section>
+
+
 
 <!-- AVANTAGES -->
 <section class="bg-gray-100 rounded-lg p-8 mb-16">
@@ -80,7 +90,7 @@
         Prêt à faire votre shopping ?
     </h2>
     <a href="{% url 'products:list_products' %}"
-       class="inline-block mt-4 bg-green-500 text-white px-8 py-3 rounded-lg shadow hover:bg-green-600 transition">
+       class="inline-block mt-4 bg-green-500 text-white px-8 py-3 rounded-lg shadow hover:bg-green-400 transition">
         Commencer dès maintenant
     </a>
 </section>
