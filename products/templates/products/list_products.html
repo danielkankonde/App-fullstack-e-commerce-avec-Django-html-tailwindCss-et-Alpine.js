@@ -17,7 +17,7 @@
             <p class="text-green-500 font-bold mt-2">{{ prod.prix }} $</p>
 
             <div class="flex gap-2">
-                <a href="" class="w-60 mt-3 bg-green-500 text-white text-center py-2 rounded hover:bg-green-600 transition">
+                <a href="{% url 'add_to_cart' prod.id %}" class="w-60 mt-3 bg-green-500 text-white text-center py-2 rounded hover:bg-green-600 transition">
                 Ajouter au panier
             </a>
             <a href="{% url 'products:detail' prod.id %}" class="w-36 mt-3 bg-yellow-500 text-white text-center py-2 rounded hover:bg-yellow-600 transition">Voir</a>

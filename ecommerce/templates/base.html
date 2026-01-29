@@ -10,30 +10,46 @@
 <body class="bg-white text-black overflow-x-hidden">
 
 <!-- Navbar -->
-<nav class="fixed top-0 left-0 w-full z-50 bg-green-400 p-6 flex justify-between items-center">
-    <div>
-        <a href="{% url 'home' %}" class="font-bold text-white text-2xl"><strong class="text-2xl color-green font-bold">G</strong>style</a>
-    </div>
+<nav class="fixed top-0 left-0 w-full z-50 bg-green-400 px-8 py-4 flex justify-between items-center">
+    <!-- Logo -->
+    <a href="{% url 'home' %}" class="text-white text-2xl font-bold">
+        <span class="text-3xl">G</span>style
+    </a>
 
-    <div class="flex items-center space-x-4">
-        <a href="{% url 'cart' %}" class="relative text-white">
-            Panier
-            {% if request.user.is_authenticated %}
-            <span class="absolute -top-2 -right-2 bg-white text-green-500 rounded-full px-2 text-xs">
-                {{ request.user.panier.lignepanier_set.count }}
+    <!-- Right side -->
+    <div class="flex items-center gap-6">
+        <!-- Panier -->
+        <a href="{% url 'cart' %}" class="relative flex items-center text-white font-medium">
+            <!-- Icône panier -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9m14-9l2 9m-5-5a1 1 0 11-2 0 1 1 0 012 0zm-6 0a1 1 0 11-2 0 1 1 0 012 0z" />
+            </svg>
+
+            <!-- Badge -->
+            <span
+                class="absolute -top-2 -right-3
+        flex items-center justify-center
+        w-5 h-5
+        bg-white text-green-600
+        text-xs font-bold
+        rounded-full
+        shadow">
+                {{ panier.total_items|default:0 }}
             </span>
-            {% endif %}
         </a>
 
         {% if request.user.is_authenticated %}
             <span class="text-white">{{ request.user.username }}</span>
-            <a href="{% url 'logout' %}" class="text-white">Déconnexion</a>
+            <a href="{% url 'logout' %}" class="text-white hover:text-gray-500">Déconnexion</a>
         {% else %}
-            <a href="{% url 'login' %}" class="text-white">Connexion</a>
-            <a href="{% url 'register' %}" class="text-white">Inscription</a>
+            <a href="{% url 'login' %}" class="text-white hover:underline">Connexion</a>
+            <a href="{% url 'register' %}" class="text-white hover:underline">Inscription</a>
         {% endif %}
     </div>
 </nav>
+
 
 <!-- SLIDER PRO E-COMMERCE - LARGEUR AUGMENTÉE -->
 <div
@@ -45,16 +61,26 @@
             '{% static "images/prod3.jpg" %}'
         ]
     }"
-    x-init="setInterval(() => current = (current + 1) % images.length, 4000)"
+    x-init="setInterval(() => current = (current + 1) % images.length, 3000)"
     class="relative w-full bg-white flex items-center justify-center py-6"
 >
 
-    <img
-        :src="images[current]"
-        class="w-full max-w-4xl h-80 object-contain mx-auto rounded shadow-lg"
-        alt="Produit"
-    >
-
+    <div class="relative w-full max-w-4xl h-80 overflow-hidden mx-auto rounded shadow-lg">
+    <template x-for="(img, index) in images" :key="index">
+        <img
+            x-show="current === index"
+            x-transition:enter="transition ease-out duration-700"
+            x-transition:enter-start="opacity-0 scale-105"
+            x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-500"
+            x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95"
+            :src="img"
+            class="absolute inset-0 w-full h-full object-contain bg-white"
+            alt="Produit"
+        >
+    </template>
+</div>
     <!-- Boutons précédent / suivant -->
     <button
         @click="current = current === 0 ? images.length - 1 : current - 1"
@@ -81,7 +107,7 @@
 
         <!-- À propos -->
         <div>
-            <h3 class="text-lg font-semibold mb-4">MaBoutique</h3>
+            <h3 class="text-lg font-semibold mb-4">Gstyle</h3>
             <p class="text-sm text-gray-400">
                 Votre boutique e-commerce de confiance pour des vêtements modernes
                 et de qualité.
@@ -117,7 +143,7 @@
 
     <!-- Copyright -->
     <div class="border-t border-gray-700 text-center py-4 text-sm text-gray-400">
-        © {{ now|date:"Y" }} MaBoutique — Tous droits réservés
+        © {{ now|date:"Y" }} Gstyle — Tous droits réservés
     </div>
 </footer>
 
