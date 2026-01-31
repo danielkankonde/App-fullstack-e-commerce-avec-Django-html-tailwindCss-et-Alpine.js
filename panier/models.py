@@ -10,13 +10,26 @@ class Panier(models.Model):
     def __str__(self):
         return f"Panier {self.id} - {self.user}"
     
-    def total_items(self):
+    def total_items_count(self):
         return self.lignepanier_set.count()
+    
+    def total_items(self):
+        return sum(ligne.quantite for ligne in self.lignepanier_set.all())
+
+    def total_price(self):
+        return sum(ligne.total() for ligne in self.lignepanier_set.all())
 
 class LignePanier(models.Model):
     panier = models.ForeignKey(Panier, on_delete=models.CASCADE)
     produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
     quantite = models.PositiveIntegerField(default=1)
 
+    class Meta:
+        unique_together = ('panier', 'produit')
+
+
     def __str__(self):
         return f"{self.produit.nom} x {self.quantite}"
+    
+    def total(self):
+        return self.quantite * self.produit.prix

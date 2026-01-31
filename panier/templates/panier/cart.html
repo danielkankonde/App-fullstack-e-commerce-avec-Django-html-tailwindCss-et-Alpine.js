@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Mon panier | Gstyle{% endblock %}
+
+{% block content %}
+
+<!-- BOITE RÉCAP PANIER -->
+<div class="bg-green-100 p-6 rounded-lg mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+    <div>
+        <p class="text-lg font-semibold">
+            🛒 {{ panier.total_items }} produit{{ panier.total_items|pluralize }}
+        </p>
+        <p class="text-xl mt-3 font-bold text-green-600">
+            Total : {{ panier.total_price }} $
+        </p>
+    </div>
+
+    <div class="flex gap-4">
+        <a href="{% url 'products:list_products' %}"
+           class="px-5 py-2 border border-green-500 text-green-600 rounded hover:bg-green-50 transition">
+            Continuer les achats
+        </a>
+
+        <a href=""
+           class="px-5 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition">
+            Passer commande
+        </a>
+    </div>
+</div>
+
+<!-- TABLE PANIER -->
+<div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="w-full text-sm md:text-base">
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="p-4 text-left">Article</th>
+                <th>Prix</th>
+                <th>Quantité</th>
+                <th>Prix Total</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for ligne in panier.lignepanier_set.all %}
+            <tr class="border-t text-center">
+                <td class="p-4 flex items-center gap-4 text-left">
+                    <img src="{{ ligne.produit.image.url }}"
+                         class="w-16 h-16 object-contain rounded">
+                    <span>{{ ligne.produit.nom }}</span>
+                </td>
+
+                <td>{{ ligne.produit.prix }} $</td>
+
+                <td>
+                    <div class="flex justify-center items-center gap-3">
+                        <a href="{% url 'decrease' ligne.id %}"
+                           class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">−</a>
+
+                        <span class="font-semibold">{{ ligne.quantite }}</span>
+
+                        <a href="{% url 'increase' ligne.id %}"
+                           class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">+</a>
+                    </div>
+                </td>
+
+                <td class="font-semibold">
+                    {{ ligne.total }} $
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4" class="p-6 text-center text-gray-500">
+                    Votre panier est vide 🛒
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
