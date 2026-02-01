@@ -9,10 +9,10 @@
 <div class="bg-green-100 p-6 rounded-lg mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
     <div>
         <p class="text-lg font-semibold">
-            🛒 {{ panier.total_items }} produit{{ panier.total_items|pluralize }}
+            Total produit{{ panier.total_items|pluralize }} : {{ panier.total_items }} 
         </p>
         <p class="text-xl mt-3 font-bold text-green-600">
-            Total : {{ panier.total_price }} $
+            Montant Total : {{ panier.total_price }} $
         </p>
     </div>
 
@@ -32,7 +32,7 @@
 <!-- TABLE PANIER -->
 <div class="bg-white rounded-lg shadow overflow-hidden">
     <table class="w-full text-sm md:text-base">
-        <thead class="bg-gray-100">
+        <thead class="bg-green-100">
             <tr>
                 <th class="p-4 text-left">Article</th>
                 <th>Prix</th>
@@ -55,12 +55,12 @@
                 <td>
                     <div class="flex justify-center items-center gap-3">
                         <a href="{% url 'decrease' ligne.id %}"
-                           class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">−</a>
+                           class="px-3 py-1 bg-gray-200 rounded hover:bg-red-500 -translate-y-3">−</a>
 
                         <span class="font-semibold">{{ ligne.quantite }}</span>
 
                         <a href="{% url 'increase' ligne.id %}"
-                           class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">+</a>
+                           class="px-3 py-1 bg-gray-200 rounded hover:bg-green-400 -translate-y-3">+</a>
                     </div>
                 </td>
 

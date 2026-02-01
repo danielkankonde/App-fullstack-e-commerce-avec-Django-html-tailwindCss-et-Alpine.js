@@ -28,14 +28,14 @@
             </svg>
 
             <!-- Badge -->
-            <span
+            <span id="cart-badge"
                 class="absolute -top-2 -right-3
-        flex items-center justify-center
-        w-5 h-5
-        bg-white text-green-600
-        text-xs font-bold
-        rounded-full
-        shadow">
+                    flex items-center justify-center
+                    w-5 h-5
+                    bg-white text-green-600
+                    text-xs font-bold
+                    rounded-full
+                    shadow">
                 {{ panier.total_items_count|default:0 }}
             </span>
         </a>
@@ -84,13 +84,13 @@
     <!-- Boutons précédent / suivant -->
     <button
         @click="current = current === 0 ? images.length - 1 : current - 1"
-        class="absolute left-4 top-1/2 -translate-y-1/2 bg-green-400 text-white px-3 py-1 rounded shadow">
+        class="absolute left-4 top-1/2 -translate-y-1/2 h-20 w-10 text-green-400 px-3 py-1">
         ‹
     </button>
 
     <button
         @click="current = current === images.length - 1 ? 0 : current + 1"
-        class="absolute right-4 top-1/2 -translate-y-1/2 bg-green-400 text-white px-3 py-1 rounded shadow">
+        class="absolute right-4 top-1/2 -translate-y-1/2 h-20 w-10 text-green-400 px-3 py-1 ">
         ›
     </button>
 </div>
@@ -144,6 +144,26 @@
         © {{ now|date:"Y" }} Gstyle — Tous droits réservés
     </div>
 </footer>
+<script>
+    function addToCart(produitId) {
+    fetch(`/panier/add/${produitId}/`, {
+        method: "GET",
+        headers: {
+            "X-Requested-With": "XMLHttpRequest"
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const badge = document.getElementById("cart-badge");
+        badge.textContent = data.total_items;
+
+        // petite animation sympa
+        badge.classList.add("scale-125");
+        setTimeout(() => badge.classList.remove("scale-125"), 200);
+    })
+    .catch(error => console.error(error));
+}
+</script>
 
 </body>
 </html>

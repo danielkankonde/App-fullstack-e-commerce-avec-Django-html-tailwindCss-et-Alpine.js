@@ -17,10 +17,13 @@
             <p class="text-green-500 font-bold mt-2">{{ prod.prix }} $</p>
 
             <div class="flex gap-2">
-                <a href="{% url 'add_to_cart' prod.id %}" class="w-60 mt-3 bg-green-500 text-white text-center py-2 rounded hover:bg-green-600 transition">
-                Ajouter au panier
-            </a>
-            <a href="{% url 'products:detail' prod.id %}" class="w-36 mt-3 bg-yellow-500 text-white text-center py-2 rounded hover:bg-yellow-600 transition">Voir</a>
+                <button
+                    data-id="{{ prod.id }}"
+                    onclick="addToCart(this.dataset.id)"
+                    class=" bg-green-500 text-white py-2 text-center px-2 mt-3 rounded hover:bg-green-600">
+                    Ajouter au panier
+                </button>
+                <a href="{% url 'products:detail' prod.id %}" class="w-36 mt-3 bg-yellow-500 text-white text-center py-2 rounded hover:bg-yellow-600 transition">Voir</a>
             </div>
         </div>
     {% empty %}

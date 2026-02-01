@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from products.models import Produit
 from .models import Panier, LignePanier
@@ -16,6 +17,7 @@ def cart_view(request):
 @login_required(login_url='login')
 def add_to_cart(request, produit_id):
     produit = get_object_or_404(Produit, id=produit_id)
+
     panier, _ = Panier.objects.get_or_create(user=request.user)
 
     ligne, created = LignePanier.objects.get_or_create(
@@ -27,8 +29,9 @@ def add_to_cart(request, produit_id):
         ligne.quantite += 1
     ligne.save()
 
-    # rester sur la même page
-    return redirect(request.META.get('HTTP_REFERER', 'home'))
+    return JsonResponse({
+        "total_items": panier.total_items()
+    })
 
 
 # Diminuer quantité 
