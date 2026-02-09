@@ -22,6 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-mn+ntc!jo98rfo^3&(0i^70bemriu4d1rl_v23u%f2cd7kl_vf'
 
+FLUTTERWAVE_SECRET_KEY = "FLW_SECRET_KEY_SANDBOX"
+FLUTTERWAVE_PUBLIC_KEY = "FLW_PUBLIC_KEY"
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

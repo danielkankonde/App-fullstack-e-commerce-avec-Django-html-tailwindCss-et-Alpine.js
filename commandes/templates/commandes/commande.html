@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Commande{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mt-24">
+
+    <!-- GAUCHE : RÉCAP COMMANDE -->
+    <div class="bg-white p-6 rounded shadow">
+        <h2 class="text-xl font-bold mb-4">🧾 Récapitulatif</h2>
+
+        {% for ligne in panier.lignepanier_set.all %}
+        <div class="flex justify-between items-center border-b py-3">
+            <div>
+                <p class="font-semibold">{{ ligne.produit.nom }}</p>
+                <p class="text-sm text-gray-500">
+                    {{ ligne.quantite }} × {{ ligne.produit.prix }} $
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="flex justify-between mt-4 font-bold text-lg">
+            <span>Total</span>
+            <span class="text-green-600">{{ panier.total_price }} $</span>
+        </div>
+
+        <a href="{% url 'cart' %}"
+           class="inline-block mt-4 text-green-600 hover:underline">
+            ← Retour au panier
+        </a>
+    </div>
+
+    <!-- DROITE : ADRESSE -->
+    <div class="bg-white p-6 rounded shadow">
+        <h2 class="text-xl font-bold mb-4">📦 Adresse de livraison</h2>
+
+        <form method="post">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="button"
+                onclick="openPaymentModal()"
+                class="w-full mt-4 bg-green-500 text-white py-3 rounded hover:bg-green-600">
+                Continuer vers le paiement
+            </button>
+        </form>
+    </div>
+
+</div>
+
+{% include "paiements/modal_paiement.html" %}
+{% endblock %}

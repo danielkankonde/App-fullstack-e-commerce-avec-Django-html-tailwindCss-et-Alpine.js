@@ -1,0 +1,72 @@
+<div
+    x-data="{ open: false }"
+    x-show="open"
+    x-transition
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    style="display: none;"
+>
+
+    <div class="bg-white rounded-lg w-full max-w-md p-6">
+        <h3 class="text-xl font-bold mb-4 text-center">
+            Choisir un moyen de paiement
+        </h3>
+        <div class="space-y-3">
+            <a href="{% url 'payer' commande.id 'card' %}"
+               class="block text-center bg-blue-600 text-white py-3 rounded hover:bg-blue-700">
+                💳 Carte Visa / MasterCard
+            </a>
+
+            <a href="{% url 'payer' commande.id 'mobilemoney' %}"
+               class="block text-center bg-orange-500 text-white py-3 rounded hover:bg-orange-600">
+                📱 Mobile Money (Orange / M-Pesa)
+            </a>
+        </div>
+
+        <button @click="open = false"
+            class="mt-6 w-full text-gray-500 hover:underline">
+            Annuler
+        </button>
+    </div>
+</div>
+
+<script>
+function openPaymentModal() {
+    document.querySelector('[x-data]').__x.$data.open = true
+}
+</script>
+<div
+    x-data="{ open: false }"
+    x-show="open"
+    x-transition
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    style="display: none;"
+>
+
+    <div class="bg-white rounded-lg w-full max-w-md p-6">
+        <h3 class="text-xl font-bold mb-4 text-center">
+            Choisir un moyen de paiement
+        </h3>
+        <div class="space-y-3">
+            <a href="{% url 'payer' commande.id 'card' %}"
+               class="block text-center bg-blue-600 text-white py-3 rounded hover:bg-blue-700">
+                💳 Carte Visa / MasterCard
+            </a>
+
+            <a href="{% url 'payer' commande.id 'mobilemoney' %}"
+               class="block text-center bg-orange-500 text-white py-3 rounded hover:bg-orange-600">
+                📱 Mobile Money (Orange / M-Pesa)
+            </a>
+        </div>
+
+        <button @click="open = false"
+            class="mt-6 w-full text-gray-500 hover:underline">
+            Annuler
+        </button>
+    </div>
+</div>
+
+<script>
+function openPaymentModal() {
+    document.querySelector('[x-data]').__x.$data.open = true
+}
+</script>

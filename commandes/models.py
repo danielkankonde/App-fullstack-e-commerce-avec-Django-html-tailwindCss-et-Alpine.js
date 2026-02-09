@@ -14,10 +14,22 @@ class Adresse(models.Model):
         return f"{self.rue}, {self.ville}"
 
 class Commande(models.Model):
+    STATUT_CHOICES = [
+        ('EN_ATTENTE', 'En attente'),
+        ('PAYEE', 'Payée'),
+        ('EXPEDIEE', 'Expédiée'),
+        ('LIVREE', 'Livrée'),
+        ('ANNULEE', 'Annulée'),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     adresse = models.ForeignKey(Adresse, on_delete=models.SET_NULL, null=True)
     prix_total = models.DecimalField(max_digits=10, decimal_places=2)
-    statut = models.CharField(max_length=50, default='En attente')
+    statut = models.CharField(
+        max_length=20,
+        choices=STATUT_CHOICES,
+        default='EN_ATTENTE'
+    )
     date_creation = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

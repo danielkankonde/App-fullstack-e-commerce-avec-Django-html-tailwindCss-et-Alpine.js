@@ -1,11 +1,14 @@
 from django.db import models
-from commandes.models import Commande
+from django.contrib.auth.models import User
+from django.utils import timezone
 
 class Paiement(models.Model):
-    commande = models.OneToOneField(Commande, on_delete=models.CASCADE)
-    mode_paiement = models.CharField(max_length=50)
-    statut = models.CharField(max_length=50, default='En attente')
-    reference_transaction = models.CharField(max_length=100, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    methode = models.CharField(max_length=50)  # visa, mpesa, orange
+    montant = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    reference = models.CharField(max_length=100, blank=True)
+    statut = models.CharField(max_length=50, default="EN_ATTENTE")
+    date_creation = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return f"{self.mode_paiement} - {self.statut}"
+        return f"Paiement {self.id} - {self.montant}"

@@ -13,9 +13,11 @@ class Panier(models.Model):
     def total_items_count(self):
         return self.lignepanier_set.count()
     
+    # Nombre des produits dans le panier
     def total_items(self):
         return sum(ligne.quantite for ligne in self.lignepanier_set.all())
 
+    # Montant total dans le panier
     def total_price(self):
         return sum(ligne.total() for ligne in self.lignepanier_set.all())
 
