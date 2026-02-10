@@ -1,8 +1,10 @@
 from django.urls import path
-from .views import checkout
+from commandes import views
+
 
 app_name = "commande"
 
 urlpatterns = [
-    path("checkout/", checkout, name="checkout"),
+    path("checkout/", views.checkout, name="checkout"),
+    path("payer/<int:commande_id>/", views.lancer_paiement, name="lancer_paiement"),
 ]

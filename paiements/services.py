@@ -17,7 +17,7 @@ def init_paiement(request, commande, methode):
         "tx_ref": reference,
         "amount": str(commande.prix_total),
         "currency": "USD",
-        "redirect_url": "http://127.0.0.1:8000/paiement/callback/",
+        "redirect_url": "http://127.0.0.1:8000/paiements/callback/",
         "payment_options": "card,mobilemoney",
         "customer": {
             "email": request.user.email,

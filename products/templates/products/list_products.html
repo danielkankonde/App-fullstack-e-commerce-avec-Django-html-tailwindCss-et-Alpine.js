@@ -9,7 +9,7 @@
     Tous nos produits
 </h1>
 
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+<div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6">
         {% for prod in produits %}
         <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-4">
             <img src="{{ prod.image.url }}" class="h-40 w-full object-contain" alt="{{ prod.nom }}">
@@ -20,7 +20,7 @@
                 <button
                     data-id="{{ prod.id }}"
                     onclick="addToCart(this.dataset.id)"
-                    class=" bg-green-500 text-white py-2 text-center px-2 mt-3 rounded hover:bg-green-600">
+                    class=" bg-green-500 text-white text-center md:px-2 py-2 mt-3 rounded hover:bg-green-600">
                     Ajouter au panier
                 </button>
                 <a href="{% url 'products:detail' prod.id %}" class="w-36 mt-3 bg-yellow-500 text-white text-center py-2 rounded hover:bg-yellow-600 transition">Voir</a>

@@ -4,11 +4,11 @@
 {% block title %}Commande{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mt-24">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mt-20">
 
     <!-- GAUCHE : RÉCAP COMMANDE -->
     <div class="bg-white p-6 rounded shadow">
-        <h2 class="text-xl font-bold mb-4">🧾 Récapitulatif</h2>
+        <h2 class="text-xl text-center py-3 text-white bg-green-500 font-bold mb-4">Récapitulatif de la commande</h2>
 
         {% for ligne in panier.lignepanier_set.all %}
         <div class="flex justify-between items-center border-b py-3">
@@ -28,28 +28,88 @@
 
         <a href="{% url 'cart' %}"
            class="inline-block mt-4 text-green-600 hover:underline">
-            ← Retour au panier
+            Retour au panier
         </a>
     </div>
 
     <!-- DROITE : ADRESSE -->
     <div class="bg-white p-6 rounded shadow">
-        <h2 class="text-xl font-bold mb-4">📦 Adresse de livraison</h2>
+        <h2 class="text-xl text-center py-3 text-white bg-green-500 font-bold mb-4">Adresse de l'expéditeur</h2>
 
         <form method="post">
             {% csrf_token %}
 
             {{ form.as_p }}
 
-            <button type="button"
-                onclick="openPaymentModal()"
-                class="w-full mt-4 bg-green-500 text-white py-3 rounded hover:bg-green-600">
-                Continuer vers le paiement
+            <button type="submit"
+                class="w-full mt-4 bg-blue-500 text-white py-3 rounded">
+                Valider l’adresse
             </button>
+
+            {% if commande %}
+            <button
+                id="btnPaiement"
+                data-commande-id="{{ commande.id }}"
+                type="button"
+                onclick="openPaymentModal()"
+                class="hidden">
+            </button>
+            {% endif %}
         </form>
     </div>
 
 </div>
 
 {% include "paiements/modal_paiement.html" %}
+
+{% if open_payment %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    openPaymentModal();
+});
+</script>
+{% endif %}
+
+<script>
+let commandeId = null;
+
+function openPaymentModal() {
+    const btn = document.getElementById("btnPaiement");
+    commandeId = btn.dataset.commandeId;
+
+    document.getElementById('paymentModal').classList.remove('hidden');
+}
+
+function closePaymentModal() {
+    document.getElementById('paymentModal').classList.add('hidden');
+}
+
+function payer(methode) {
+    if (!commandeId) {
+        alert("Commande introuvable");
+        return;
+    }
+
+    fetch(`/commandes/payer/${commandeId}/`, {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: "methode=" + methode
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.payment_url) {
+            window.location.href = data.payment_url;
+        } else {
+            alert("Erreur lors du paiement");
+        }
+    })
+    .catch(() => alert("Erreur serveur"));
+}
+</script>
+
+
+
 {% endblock %}
