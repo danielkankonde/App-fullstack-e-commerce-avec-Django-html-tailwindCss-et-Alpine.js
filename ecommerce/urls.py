@@ -29,6 +29,7 @@ urlpatterns = [
     path('products/', include('products.urls')),
     path('panier/', include('panier.urls')),
     path('commandes/', include('commandes.urls')),
+    path('paiements/', include('paiements.urls')),
 ]
 
 urlpatterns += static(

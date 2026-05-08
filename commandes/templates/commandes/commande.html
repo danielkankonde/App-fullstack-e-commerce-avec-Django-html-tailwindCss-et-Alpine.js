@@ -42,7 +42,7 @@
             {{ form.as_p }}
 
             <button type="submit"
-                class="w-full mt-4 bg-blue-500 text-white py-3 rounded">
+                class="w-full mt-4 bg-green-500 text-white py-3 rounded">
                 Valider l’adresse
             </button>
 
@@ -86,10 +86,11 @@ function closePaymentModal() {
 
 function payer(methode) {
     if (!commandeId) {
-        alert("Commande introuvable");
+        alert("ID Commande manquant");
         return;
     }
 
+    // Afficher un indicateur de chargement si tu en as un
     fetch(`/commandes/payer/${commandeId}/`, {
         method: "POST",
         headers: {
@@ -100,13 +101,16 @@ function payer(methode) {
     })
     .then(res => res.json())
     .then(data => {
-        if (data.payment_url) {
+        if (data.success && data.payment_url) {
             window.location.href = data.payment_url;
         } else {
-            alert("Erreur lors du paiement");
+            alert("Erreur : " + (data.error || "Le lien de paiement n'a pas pu être généré."));
         }
     })
-    .catch(() => alert("Erreur serveur"));
+    .catch(err => {
+        console.error(err);
+        alert("Erreur réseau ou serveur.");
+    });
 }
 </script>
 

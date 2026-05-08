@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from panier.models import Panier
 from .models import Commande, LigneCommande
 from .forms import AdresseForm
-from paiements.utils import init_paiement
+from paiements.utils import PaymentInitializationError, init_paiement
 
 
 @login_required
@@ -55,21 +55,28 @@ def checkout(request):
         "form": form
     })
 
+# Dans commandes/views.py
 @login_required
 def lancer_paiement(request, commande_id):
-    """
-    Appelé via AJAX depuis le popup
-    """
+
     if request.method == "POST":
         commande = get_object_or_404(Commande, id=commande_id, user=request.user)
         methode = request.POST.get("methode")
 
         if methode not in ["card", "mobilemoney"]:
-            return JsonResponse({"error": "Méthode invalide"}, status=400)
+            return JsonResponse({"error": "Methode de paiement invalide."}, status=400)
 
-        payment_url = init_paiement(request, commande, methode)
+        try:
+            payment_url = init_paiement(request, commande, methode)
+        except PaymentInitializationError as e:
+            return JsonResponse({"error": e.user_message}, status=400)
 
-        return JsonResponse({"payment_url": payment_url})
-
+        if payment_url:
+            return JsonResponse({"success": True, "payment_url": payment_url})
+        else:
+            # On renvoie une erreur JSON propre au lieu d'une erreur 500
+            return JsonResponse({
+                "error": "Le service de paiement est indisponible. Vérifiez vos clés API."
+            }, status=400)
+        
     return JsonResponse({"error": "Invalid request"}, status=400)
-

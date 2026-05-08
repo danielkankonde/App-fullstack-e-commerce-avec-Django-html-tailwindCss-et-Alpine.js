@@ -10,24 +10,28 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / ".env")
 
+SECRET_KEY = os.getenv("SECRET_KEY")
+
+FLUTTERWAVE_SECRET_KEY = os.getenv("FLUTTERWAVE_SECRET_KEY")
+FLUTTERWAVE_PUBLIC_KEY = os.getenv("FLUTTERWAVE_PUBLIC_KEY")
+FLUTTERWAVE_CURRENCY = os.getenv("FLUTTERWAVE_CURRENCY", "XAF")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-mn+ntc!jo98rfo^3&(0i^70bemriu4d1rl_v23u%f2cd7kl_vf'
-
-FLUTTERWAVE_SECRET_KEY = "FLW_SECRET_KEY_SANDBOX"
-FLUTTERWAVE_PUBLIC_KEY = "FLW_PUBLIC_KEY"
-
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = []
 

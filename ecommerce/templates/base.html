@@ -5,21 +5,99 @@
     <meta charset="UTF-8">
     <title>{% block title %}E-Commerce{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .page-enter {
+            animation: pageEnter 0.45s ease both;
+        }
+
+        .reveal {
+            animation: revealUp 0.55s ease both;
+        }
+
+        .product-card {
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 35px rgba(15, 23, 42, 0.12);
+        }
+
+        .media-zoom {
+            transition: transform 0.35s ease;
+        }
+
+        .product-card:hover .media-zoom,
+        .media-zoom:hover {
+            transform: scale(1.04);
+        }
+
+        .btn-pro {
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        }
+
+        .btn-pro:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.14);
+        }
+
+        .btn-pro:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        @keyframes pageEnter {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes revealUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
 </head>
 <body class="bg-white text-black overflow-x-hidden">
 
 <!-- Navbar -->
-<nav class="fixed top-0 left-0 w-full z-50 bg-green-400 px-8 py-4 flex justify-between items-center">
+<nav class="fixed top-0 left-0 w-full z-50 bg-green-400 px-8 py-4 flex justify-between items-center shadow-sm transition-shadow duration-300 hover:shadow-md">
     <!-- Logo -->
-    <a href="{% url 'home' %}" class="text-white text-2xl font-bold">
+    <a href="{% url 'home' %}" class="text-white text-2xl font-bold transition-transform duration-200 hover:scale-105">
         <span class="text-3xl">G</span>style
     </a>
 
     <!-- Right side -->
     <div class="flex items-center gap-6">
         <!-- Panier -->
-        <a href="{% url 'cart' %}" class="relative flex items-center text-white font-medium">
+        <a href="{% url 'cart' %}" class="relative flex items-center text-white font-medium transition-transform duration-200 hover:scale-110">
             <!-- Icône panier -->
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
                 viewBox="0 0 24 24" stroke="currentColor">
@@ -102,7 +180,7 @@
 </div>
 
 <!-- FOOTER -->
-<footer class="bg-gray-900 text-gray-200 mt-10">
+<footer class="bg-gray-900 text-gray-200 mt-10 reveal">
     <div class="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
 
         <div>
@@ -126,13 +204,13 @@
         <div>
             <h3 class="text-lg font-semibold mb-4">Suivez-nous</h3>
             <div class="flex space-x-6">
-                <a href="#" class="hover:text-blue-500 transition text-2xl" title="Facebook">
+                <a href="#" class="hover:text-blue-500 transition text-2xl inline-block hover:-translate-y-1 duration-200" title="Facebook">
                     <i class="fa-brands fa-facebook"></i>
                 </a>
-                <a href="#" class="hover:text-pink-500 transition text-2xl" title="Instagram">
+                <a href="#" class="hover:text-pink-500 transition text-2xl inline-block hover:-translate-y-1 duration-200" title="Instagram">
                     <i class="fa-brands fa-instagram"></i>
                 </a>
-                <a href="#" class="hover:text-green-500 transition text-2xl" title="WhatsApp">
+                <a href="#" class="hover:text-green-500 transition text-2xl inline-block hover:-translate-y-1 duration-200" title="WhatsApp">
                     <i class="fa-brands fa-whatsapp"></i>
                 </a>
             </div>
@@ -141,7 +219,7 @@
     </div>
 
     <div class="border-t border-gray-700 text-center py-4 text-sm text-gray-400">
-        © {{ now|date:"Y" }} Gstyle — Tous droits réservés
+        © {% now "Y" %} Gstyle — Tous droits réservés
     </div>
 </footer>
 <script>

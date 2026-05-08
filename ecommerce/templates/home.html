@@ -6,7 +6,7 @@
 {% block content %}
 
 <!-- HERO TEXTE -->
-<section class="text-center mb-12">
+<section class="text-center mb-12 reveal">
     <h1 class="text-4xl font-extrabold text-gray-800">
         Bienvenue sur <span class="text-green-500">Gstyle</span>
     </h1>
@@ -14,21 +14,21 @@
         Découvrez des produits de qualité, au meilleur prix, livrés rapidement chez vous.
     </p>
     <a href="{% url 'products:list_products' %}"
-       class="inline-block mt-6 bg-green-400 text-white px-6 py-3 rounded-lg shadow hover:bg-green-600 transition">
+       class="btn-pro inline-block mt-6 bg-green-400 text-white px-6 py-3 rounded-lg shadow hover:bg-green-600 transition">
         Voir les produits
     </a>
 </section>
 
 <!-- CATEGORIES -->
-<section class="mb-16">
+<section class="mb-16 reveal">
     <h2 class="text-2xl font-bold mb-6 text-gray-800">
         Catégories populaires
     </h2>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6">
         {% for cat in categories %}
-        <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-4 text-center">
-            <img src="{{ cat.image.url }}" class="h-32 mx-auto object-contain" alt="{{ cat.nom }}">
+        <div class="product-card bg-white rounded-lg shadow hover:shadow-lg transition p-4 text-center">
+            <img src="{{ cat.image.url }}" class="media-zoom h-32 mx-auto object-contain" alt="{{ cat.nom }}">
             <h3 class="mt-4 font-semibold text-gray-700">{{ cat.nom }}</h3>
         </div>
         {% empty %}
@@ -39,28 +39,28 @@
 
 
 <!-- PRODUITS POPULAIRES -->
-<section class="mb-16">
+<section class="mb-16 reveal">
     <h2 class="text-2xl font-bold mb-6 text-gray-800">
         Produits populaires
     </h2>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6">
         {% for prod in produits %}
-        <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-4">
-            <img src="{{ prod.image.url }}" class="h-40 w-full object-contain" alt="{{ prod.nom }}">
+        <div class="product-card bg-white rounded-lg shadow hover:shadow-lg transition p-4">
+            <img src="{{ prod.image.url }}" class="media-zoom h-40 w-full object-contain" alt="{{ prod.nom }}">
             <h3 class="mt-4 font-semibold text-gray-800">{{ prod.nom }}</h3>
             <p class="text-green-500 font-bold mt-2">{{ prod.prix }} $</p>
 
-            <div class="flex gap-2">
-            <button
-                data-id="{{ prod.id }}"
-                onclick="addToCart(this.dataset.id)"
-                class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
-                Ajouter au panier
-            </button>
+            <div class="flex items-center gap-1.5 mt-3">
+                <button
+                    data-id="{{ prod.id }}"
+                    onclick="addToCart(this.dataset.id)"
+                    class="btn-pro inline-flex min-w-0 flex-1 items-center justify-center px-3 py-3 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600 transition sm:flex-none sm:px-3">
+                    Ajouter au panier
+                </button>
 
-                <a href="{% url 'products:detail' prod.id %}" class="w-36 mt-3 bg-yellow-500 text-white text-center py-2 rounded hover:bg-yellow-600 transition">Voir</a>
-            </div>
+                <a href="{% url 'products:detail' prod.id %}" class="btn-pro inline-flex min-w-0 items-center justify-center px-3 py-3 bg-yellow-500 text-white text-xs font-medium rounded hover:bg-yellow-600 transition">Voir</a>
+            </div> 
         </div>
         {% empty %}
         <p>Aucun produit populaire</p>
@@ -72,17 +72,17 @@
 
 <!-- AVANTAGES -->
 <h2 class="text-3xl text-center font-bold"> Pourquoi choisir Gstyle ?</h2>
-<section class="bg-gray-100 rounded-lg p-10 px-6 mt-5 mb-16">
+<section class="bg-gray-100 rounded-lg p-10 px-6 mt-5 mb-16 reveal">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-        <div class="bg-green-400 p-6 text-white rounded-lg">
+        <div class="product-card bg-green-400 p-6 text-white rounded-lg">
             <h3 class="font-bold text-lg">Livraison rapide</h3>
             <p class="text-white-600 mt-2">Partout en RDC</p>
         </div>
-        <div class="bg-green-400 p-6 text-white rounded-lg">
+        <div class="product-card bg-green-400 p-6 text-white rounded-lg">
             <h3 class="font-bold text-lg">Paiement sécurisé</h3>
             <p class="text-white-600 mt-2">Mobile Money & Carte</p>
         </div>
-        <div class="bg-green-400 p-6 text-white rounded-lg">
+        <div class="product-card bg-green-400 p-6 text-white rounded-lg">
             <h3 class="font-bold text-lg">Support 24/7</h3>
             <p class="text-white-600 mt-2">Toujours à votre écoute</p>
         </div>
@@ -90,12 +90,12 @@
 </section>
 
 <!-- CALL TO ACTION -->
-<section class="text-center mb-10">
+<section class="text-center mb-10 reveal">
     <h2 class="text-3xl font-bold text-gray-800">
         Prêt à faire votre shopping ?
     </h2>
     <a href="{% url 'products:list_products' %}"
-       class="inline-block mt-5 bg-green-500 text-white px-8 py-3 rounded-lg shadow hover:bg-green-400 transition">
+       class="btn-pro inline-block mt-5 bg-green-500 text-white px-8 py-3 rounded-lg shadow hover:bg-green-400 transition">
         Commencer dès maintenant
     </a>
 </section>
